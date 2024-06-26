@@ -12,6 +12,12 @@ function setup() {
     video.size(width, height);
     video.hide();
 
+    // Check if ml5 is correctly loaded
+    if (typeof ml5 === 'undefined') {
+        logMessage('ml5 library not loaded. Please check the script source.');
+        return;
+    }
+
     // Load the face-api model
     faceapi = ml5.faceApi(video, { withLandmarks: true, withExpressions: true, withDescriptors: false }, modelReady);
 }
