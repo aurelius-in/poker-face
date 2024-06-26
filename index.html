@@ -8,8 +8,10 @@
 </head>
 <body>
     <h1>Live Emotion Detection</h1>
-    <video id="video" width="640" height="480" autoplay muted></video>
-    <canvas id="overlay" width="640" height="480"></canvas>
+    <div class="video-container">
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="overlay"></canvas>
+    </div>
     <div class="button-container">
         <button id="switchCameraButton">🔁</button>
         <button id="startRecordingButton">🎦</button>
