@@ -1,6 +1,8 @@
 let video;
 let faceapi;
 let detections = [];
+let usingFrontCamera = true;
+let currentStream;
 
 function setup() {
     const canvas = createCanvas(640, 480);
@@ -82,9 +84,15 @@ function switchCamera() {
             facingMode: usingFrontCamera ? "user" : "environment"
         }
     };
-    currentStream = navigator.mediaDevices.getUserMedia(constraints);
-    video.srcObject = currentStream;
-    usingFrontCamera = !usingFrontCamera;
+    navigator.mediaDevices.getUserMedia(constraints)
+        .then(stream => {
+            currentStream = stream;
+            video.elt.srcObject = stream;
+            usingFrontCamera = !usingFrontCamera;
+        })
+        .catch(err => {
+            console.error('Error accessing camera: ' + err);
+        });
 }
 
 document.getElementById('switchCameraButton').addEventListener('click', switchCamera);
@@ -116,10 +124,10 @@ async function startCamera() {
             }
         };
         currentStream = await navigator.mediaDevices.getUserMedia(constraints);
-        video.srcObject = currentStream;
+        video.elt.srcObject = currentStream;
         logMessage('Camera started successfully.');
         videoOn = true;
-        startRecordingButton.textContent = '🛑';
+        document.getElementById('startRecordingButton').textContent = '🛑';
     } catch (error) {
         logMessage('Error accessing camera: ' + error.message);
     }
@@ -130,7 +138,7 @@ function stopCamera() {
         currentStream.getTracks().forEach(track => track.stop());
         logMessage('Stopped video stream.');
     }
-    video.srcObject = null;
+    video.elt.srcObject = null;
     videoOn = false;
-    startRecordingButton.textContent = '🎦';
+    document.getElementById('startRecordingButton').textContent = '🎦';
 }
