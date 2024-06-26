@@ -115,9 +115,20 @@ function startRecording() {
 document.getElementById('startRecordingButton').addEventListener('click', startRecording);
 
 function logMessage(message) {
-    document.getElementById('error-message').textContent = message;
+    const log = document.getElementById('console-log');
+    log.textContent += message + '\n';
     console.log(message);
 }
+
+function logError(message) {
+    const log = document.getElementById('console-log');
+    log.textContent += '[ERROR] ' + message + '\n';
+    console.error(message);
+}
+
+// Override console.log and console.error
+console.log = logMessage;
+console.error = logError;
 
 async function startCamera() {
     try {
@@ -136,7 +147,7 @@ async function startCamera() {
         videoOn = true;
         document.getElementById('startRecordingButton').textContent = '🛑';
     } catch (error) {
-        logMessage('Error accessing camera: ' + error.message);
+        logError('Error accessing camera: ' + error.message);
     }
 }
 
