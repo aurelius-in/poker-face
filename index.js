@@ -3,9 +3,10 @@ let faceapi;
 let detections = [];
 let usingFrontCamera = true;
 let currentStream;
+let videoOn = false;
 
 function setup() {
-    const canvas = createCanvas(640, 480);
+    const canvas = createCanvas(480, 480); // Ensure it's square
     canvas.id('overlay');
     video = createCapture(VIDEO);
     video.size(width, height);
