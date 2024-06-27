@@ -12,24 +12,28 @@ function setup() {
     video.size(width, height);
     video.hide();
 
+    logMessage('Video capture setup complete.');
+
     // Check if ml5 is correctly loaded
     if (typeof ml5 === 'undefined') {
         logMessage('ml5 library not loaded. Please check the script source.');
         return;
     }
 
+    logMessage('ml5 library loaded successfully.');
+
     // Load the face-api model
     faceapi = ml5.faceApi(video, { withLandmarks: true, withExpressions: true, withDescriptors: false }, modelReady);
 }
 
 function modelReady() {
-    console.log('Model Loaded!');
+    logMessage('Model Loaded!');
     faceapi.detect(gotResults);
 }
 
 function gotResults(err, result) {
     if (err) {
-        console.error(err);
+        logError('Error in gotResults: ' + err);
         return;
     }
 
@@ -96,9 +100,10 @@ function switchCamera() {
             currentStream = stream;
             video.elt.srcObject = stream;
             usingFrontCamera = !usingFrontCamera;
+            logMessage('Switched camera successfully.');
         })
         .catch(err => {
-            console.error('Error accessing camera: ' + err);
+            logError('Error accessing camera: ' + err);
         });
 }
 
