@@ -52,7 +52,7 @@ function stopCamera() {
 function switchCamera() {
     let constraints = {
         video: {
-            facingMode: usingFrontCamera ? 'user' : 'environment'
+            facingMode: usingFrontCamera ? "user" : "environment"
         }
     };
     navigator.mediaDevices.getUserMedia(constraints)
